@@ -1,0 +1,207 @@
+.section {
+  scroll-margin-top: 32px;
+}
+
+.heading {
+  font-size: 1.75rem;
+  margin-bottom: 12px;
+}
+
+.description {
+  color: var(--color-text-light);
+  font-size: 0.95rem;
+  margin-bottom: 32px;
+  max-width: 640px;
+}
+
+.optionsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.card {
+  position: relative;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 28px 24px;
+  background: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.cardRecommended {
+  border: 2px solid var(--color-primary);
+  padding-top: 36px;
+}
+
+.recommendBadge {
+  position: absolute;
+  top: -11px;
+  left: 20px;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 4px 14px;
+  border-radius: 100px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.cardIcon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.cardName {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 2px;
+}
+
+.cardTagline {
+  font-size: 0.725rem;
+  color: var(--color-text-muted);
+}
+
+.cardDesc {
+  font-size: 0.8rem;
+  line-height: 1.65;
+  color: var(--color-text-light);
+  margin-bottom: 16px;
+}
+
+.scoreBadge {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  background: rgba(45, 80, 100, 0.04);
+  border-radius: var(--radius-md);
+  margin-bottom: 12px;
+  border: 1px solid rgba(45, 80, 100, 0.1);
+}
+
+.scoreReason {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.costBadge {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: var(--color-bg-alt);
+  border-radius: var(--radius-md);
+  margin-bottom: 18px;
+}
+
+.costLabel {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text-muted);
+}
+
+.costValue {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-secondary);
+}
+
+.prosSection {
+  margin-bottom: 16px;
+}
+
+.consSection {
+  margin-top: auto;
+}
+
+.listTitle {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--color-text-muted);
+  margin-bottom: 10px;
+}
+
+.prosList,
+.consList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.prosList li,
+.consList li {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 0.775rem;
+  color: var(--color-text);
+  line-height: 1.45;
+}
+
+.checkIcon {
+  color: var(--color-success);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.arrowIcon {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.note {
+  margin-top: 24px;
+  padding: 16px 20px;
+  background: var(--color-bg-alt);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.note p {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 1024px) {
+  .optionsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 680px) {
+  .optionsGrid {
+    grid-template-columns: 1fr;
+    max-width: 560px;
+  }
+}

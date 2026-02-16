@@ -1,0 +1,38 @@
+.mockup {
+  min-height: 100vh;
+  background: var(--color-bg);
+}
+
+.previewBar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 24px;
+  background: var(--color-bg-dark);
+  border-bottom: 2px solid var(--color-accent);
+}
+
+.previewLabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--color-accent);
+}
+
+.backLink {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #fff;
+  padding: 4px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-sm);
+  transition: background 0.2s;
+}
+
+.backLink:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}

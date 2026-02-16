@@ -1,0 +1,127 @@
+.footer {
+  background: var(--color-bg-dark);
+  padding: 64px 24px 32px;
+}
+
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+  gap: 40px;
+  margin-bottom: 48px;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.brandName {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 2px;
+}
+
+.brandSub {
+  font-size: 0.6rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: var(--color-primary-light);
+}
+
+.brandText {
+  font-size: 0.825rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.colTitle {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 16px;
+}
+
+.linkList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.linkList a {
+  font-size: 0.825rem;
+  color: rgba(255, 255, 255, 0.45);
+  transition: color 0.2s;
+}
+
+.linkList a:hover {
+  color: #fff;
+}
+
+.contactItems {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.825rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.contactItem svg {
+  color: var(--color-primary-light);
+  flex-shrink: 0;
+}
+
+.contactItem a {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.contactItem a:hover {
+  color: #fff;
+}
+
+.bottom {
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.bottom p {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .footer {
+    padding: 48px 16px 24px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+}

@@ -35,12 +35,20 @@ function getPhase1Visibility(config: DiscoveryConfig): LineItemVisibility[] {
         : undefined,
     },
     {
-      id: 'ssl-security',
+      id: 'referral-upgrade',
+      visible: config.accepts_referrals,
+      included: config.accepts_referrals,
+      note: !config.accepts_referrals
+        ? 'Not applicable — practice does not accept referrals'
+        : undefined,
+    },
+    {
+      id: 'hipaa-controls',
       visible: true,
       included: true,
     },
     {
-      id: 'hipaa-compliance',
+      id: 'baa-compliance',
       visible: true,
       included: config.hipaa_hosting_required,
       note: !config.hipaa_hosting_required

@@ -20,7 +20,7 @@ const deliverables = [
   {
     icon: Settings,
     title: 'Integration-Ready Architecture',
-    description: 'Built with hooks for RingCentral and Nextech integration. Basic connectivity included in Phase 1, with deeper integrations available as add-ons.',
+    description: 'Optional integration points for RingCentral and Nextech connectivity. Optional basic integration as Phase 1 click-to-call links, portal deep links, and form data structured for import. Deeper API-level integrations are available as Phase 2 add-ons.',
   },
   {
     icon: Smartphone,

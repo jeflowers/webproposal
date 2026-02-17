@@ -78,18 +78,19 @@ function buildPhase1Groups(hostingProvider: HostingOptionId): LineGroup[] {
     {
       category: 'Design & Development',
       items: [
-        { id: 'website-design', name: 'Website Design (6 pages)', description: 'Home, Services, Our Doctors, Patient Forms, Doctor Referrals, Contact', price: '$2,400' },
-        { id: 'responsive-dev', name: 'Responsive Development', description: 'Mobile, tablet, and desktop optimization', price: '$1,200' },
-        { id: 'patient-forms', name: 'Patient Intake Forms (4 forms)', description: 'Registration, Medical History, Insurance, Consent', price: '$1,800' },
-        { id: 'referral-form', name: 'Doctor Referral Form', description: 'Physician referral submission system', price: '$600' },
+        { id: 'website-design', name: 'Website Design (6 page layouts)', description: 'Visual design, UI/UX, navigation, and page templates for Home, Services, Our Doctors, Patient Forms, Doctor Referrals, Contact', price: '$2,400' },
+        { id: 'responsive-dev', name: 'Responsive Development', description: 'Mobile, tablet, and desktop optimization with cross-browser testing', price: '$1,200' },
+        { id: 'patient-forms', name: 'Patient Intake Forms (4 forms)', description: 'Secure form development, validation, database storage, and submission workflows for Registration, Medical History, Insurance, Consent', price: '$1,800' },
+        { id: 'referral-form', name: 'Doctor Referral Form', description: 'Basic physician referral submission system', price: '$400' },
+        { id: 'referral-upgrade', name: 'Referral Form Enhancement', description: 'File attachments, enhanced workflow, and confirmation emails', price: '$200' },
       ],
       subtotal: '$6,000',
     },
     {
-      category: 'Infrastructure & Security',
+      category: 'Security & Compliance',
       items: [
-        { id: 'ssl-security', name: 'Secure Database Setup', description: 'Form submissions, referral data storage', price: '$800' },
-        { id: 'hipaa-compliance', name: 'SSL Certificate & Security', description: 'HTTPS, secure form handling', price: '$200' },
+        { id: 'hipaa-controls', name: 'HIPAA Security Controls', description: 'Encryption at rest and in transit, access controls, audit logging, row-level security policies', price: '$600' },
+        { id: 'baa-compliance', name: 'BAA Documentation & Compliance Prep', description: 'Business Associate Agreement preparation, compliance documentation, security audit readiness', price: '$400' },
       ],
       subtotal: '$1,000',
     },
@@ -127,60 +128,65 @@ const addOns: AddOn[] = [
     id: 'ringcentral',
     name: 'RingCentral Integration',
     description: 'Deep integration with your existing phone and scheduling system.',
-    price: '$800',
+    price: '$1,280',
     includes: [
       'Click-to-call buttons throughout the site',
       'Embedded scheduling widget (if supported by plan)',
       'Voicemail and callback request forms',
       'SMS notification integration for appointment reminders',
+      'Includes discovery, QA, documentation, and deployment',
     ],
   },
   {
     id: 'nextech',
     name: 'Nextech EHR Integration',
     description: 'Connect the website directly to your practice management system.',
-    price: '$1,200',
+    price: '$1,920',
     includes: [
       'Form submissions formatted for Nextech import',
       'Referral data structured for patient intake',
       'API integration for automated data sync',
       'Patient portal deep linking',
+      'Includes discovery, QA, documentation, and deployment',
     ],
   },
   {
     id: 'scheduling',
     name: 'Online Appointment Scheduling',
     description: 'Let patients book appointments directly from the website.',
-    price: '$600',
+    price: '$960',
     includes: [
       'Calendar-based scheduling interface',
       'Appointment type selection',
       'Automated confirmation emails',
       'Integration with existing scheduling workflow',
+      'Includes discovery, QA, documentation, and deployment',
     ],
   },
   {
     id: 'patient-portal',
     name: 'Patient Portal Enhancement',
     description: 'Secure patient login for records access and communication.',
-    price: '$1,000',
+    price: '$1,600',
     includes: [
       'Secure patient login system',
       'Form submission history',
       'Appointment history view',
       'Secure messaging with the practice',
+      'Includes discovery, QA, documentation, and deployment',
     ],
   },
   {
     id: 'language-pack',
     name: 'Additional Language Pack',
     description: 'Expand your site beyond English and Spanish with additional language support. Per-language pricing.',
-    price: '$1,200/lang',
+    price: '$1,920/lang',
     includes: [
       'Full translation of all pages, forms, and UI elements',
       'RTL (right-to-left) support for applicable languages (Arabic, Hebrew, etc.)',
       'Locale-specific date, number, and currency formatting',
       'Proven framework supporting up to 11+ languages (see csvlasik.com reference)',
+      'Includes discovery, QA, documentation, and deployment',
     ],
   },
 ]
@@ -400,9 +406,11 @@ export default function InvestmentSummary() {
           Phase 1 includes everything needed for a complete, functional website
           with full English and Mexican Spanish language support.
           Add-ons can be purchased at any time after launch, including additional
-          language packs at $1,200 per language. Monthly costs are
-          optional and billed separately. A 50% deposit is required to begin
-          Phase 1, with the remaining balance due upon completion.
+          language packs at $1,920 per language. Add-on pricing is fully loaded
+          and includes discovery, design review, QA, documentation, deployment,
+          and training. Monthly costs are optional and billed separately.
+          A 50% deposit is required to begin Phase 1, with the remaining
+          balance due upon completion.
         </p>
       </div>
 

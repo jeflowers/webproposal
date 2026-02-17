@@ -24,18 +24,19 @@ const phase1Categories: WorksheetCategory[] = [
     id: 'design',
     name: 'Design & Development',
     items: [
-      { id: 'website-design', name: 'Website Design (6 pages)', description: 'Home, Services, Our Doctors, Patient Forms, Doctor Referrals, Contact', hours: 24, price: 2400 },
-      { id: 'responsive-dev', name: 'Responsive Development', description: 'Mobile, tablet, and desktop optimization', hours: 12, price: 1200 },
-      { id: 'patient-forms', name: 'Patient Intake Forms (4 forms)', description: 'Registration, Medical History, Insurance, Consent', hours: 18, price: 1800 },
-      { id: 'referral-form', name: 'Doctor Referral Form', description: 'Physician referral submission system', hours: 6, price: 600 },
+      { id: 'website-design', name: 'Website Design (6 page layouts)', description: 'Visual design, UI/UX, navigation, and page templates for Home, Services, Our Doctors, Patient Forms, Doctor Referrals, Contact', hours: 24, price: 2400 },
+      { id: 'responsive-dev', name: 'Responsive Development', description: 'Mobile, tablet, and desktop optimization with cross-browser testing', hours: 12, price: 1200 },
+      { id: 'patient-forms', name: 'Patient Intake Forms (4 forms)', description: 'Secure form development, validation, database storage, and submission workflows for Registration, Medical History, Insurance, Consent', hours: 18, price: 1800 },
+      { id: 'referral-form', name: 'Doctor Referral Form', description: 'Basic physician referral submission system', hours: 4, price: 400 },
+      { id: 'referral-upgrade', name: 'Referral Form Enhancement', description: 'File attachments, enhanced workflow, and confirmation emails', hours: 2, price: 200 },
     ],
   },
   {
     id: 'infrastructure',
-    name: 'Infrastructure & Security',
+    name: 'Security & Compliance',
     items: [
-      { id: 'ssl-security', name: 'Secure Database Setup', description: 'Form submissions, referral data storage', hours: 8, price: 800 },
-      { id: 'hipaa-compliance', name: 'SSL Certificate & Security', description: 'HTTPS, secure form handling', hours: 2, price: 200 },
+      { id: 'hipaa-controls', name: 'HIPAA Security Controls', description: 'Encryption at rest and in transit, access controls, audit logging, row-level security policies', hours: 6, price: 600 },
+      { id: 'baa-compliance', name: 'BAA Documentation & Compliance Prep', description: 'Business Associate Agreement preparation, compliance documentation, security audit readiness', hours: 4, price: 400 },
     ],
   },
   {
@@ -59,11 +60,11 @@ const phase1Categories: WorksheetCategory[] = [
 ]
 
 const addOns: WorksheetItem[] = [
-  { id: 'ringcentral', name: 'RingCentral Integration', description: 'Click-to-call, scheduling widget, voicemail forms, SMS reminders', hours: 8, price: 800 },
-  { id: 'nextech', name: 'Nextech EHR Integration', description: 'Nextech import formatting, API sync, patient portal linking', hours: 12, price: 1200 },
-  { id: 'scheduling', name: 'Online Appointment Scheduling', description: 'Calendar interface, appointment types, automated confirmations', hours: 6, price: 600 },
-  { id: 'patient-portal', name: 'Patient Portal Enhancement', description: 'Secure login, form history, appointment history, messaging', hours: 10, price: 1000 },
-  { id: 'language-pack', name: 'Additional Language Pack', description: 'Full translation, RTL support, locale-specific formatting', hours: 12, price: 1200, priceLabel: '$1,200/lang' },
+  { id: 'ringcentral', name: 'RingCentral Integration', description: 'Click-to-call, scheduling widget, voicemail forms, SMS reminders. Fully loaded: includes discovery, QA, docs, deployment.', hours: 13, price: 1280 },
+  { id: 'nextech', name: 'Nextech EHR Integration', description: 'Nextech import formatting, API sync, patient portal linking. Fully loaded: includes discovery, QA, docs, deployment.', hours: 19, price: 1920 },
+  { id: 'scheduling', name: 'Online Appointment Scheduling', description: 'Calendar interface, appointment types, automated confirmations. Fully loaded: includes discovery, QA, docs, deployment.', hours: 10, price: 960 },
+  { id: 'patient-portal', name: 'Patient Portal Enhancement', description: 'Secure login, form history, appointment history, messaging. Fully loaded: includes discovery, QA, docs, deployment.', hours: 16, price: 1600 },
+  { id: 'language-pack', name: 'Additional Language Pack', description: 'Full translation, RTL support, locale-specific formatting. Fully loaded: includes discovery, QA, docs, deployment.', hours: 19, price: 1920, priceLabel: '$1,920/lang' },
 ]
 
 const monthlyServices: WorksheetItem[] = [

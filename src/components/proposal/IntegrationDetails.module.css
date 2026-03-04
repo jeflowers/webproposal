@@ -1,0 +1,136 @@
+.section {
+  scroll-margin-top: 32px;
+}
+
+.heading {
+  font-size: 1.75rem;
+  margin-bottom: 12px;
+}
+
+.description {
+  color: var(--color-text-light);
+  font-size: 0.95rem;
+  margin-bottom: 32px;
+  max-width: 640px;
+}
+
+.integrations {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.name {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.type {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-primary);
+  background: #e6f7f7;
+  padding: 2px 10px;
+  border-radius: 100px;
+}
+
+.desc {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.column {
+  padding: 16px;
+  background: var(--color-bg-alt);
+  border-radius: var(--radius-md);
+}
+
+.columnLabel {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.coreBadge {
+  display: inline-block;
+  background: var(--color-secondary);
+  color: #fff;
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 8px;
+  border-radius: 100px;
+}
+
+.futureBadge {
+  display: inline-block;
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 8px;
+  border-radius: 100px;
+}
+
+.featureList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.featureList li {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 0.775rem;
+  color: var(--color-text);
+  line-height: 1.45;
+}
+
+.arrowIcon {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+@media (max-width: 768px) {
+  .integrations {
+    grid-template-columns: 1fr;
+  }
+  .columns {
+    grid-template-columns: 1fr;
+  }
+}

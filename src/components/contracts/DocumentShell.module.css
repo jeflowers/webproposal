@@ -1,0 +1,132 @@
+.shell {
+  max-width: 816px;
+  margin: 0 auto;
+  padding: 48px 40px;
+  background: var(--color-bg);
+  min-height: 100vh;
+}
+
+.toolbar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+  align-items: center;
+}
+
+.toolbarBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  color: var(--color-text);
+  transition: all 0.2s ease;
+}
+
+.toolbarBtn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--color-bg-alt);
+}
+
+.toolbarBtnPrimary {
+  composes: toolbarBtn;
+  background: var(--color-secondary);
+  color: #fff;
+  border-color: var(--color-secondary);
+}
+
+.toolbarBtnPrimary:hover {
+  background: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+  color: #fff;
+}
+
+.backLink {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-text-light);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s ease;
+}
+
+.backLink:hover {
+  color: var(--color-primary);
+}
+
+.toolbarSpacer {
+  flex: 1;
+}
+
+.content {
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: var(--color-text);
+}
+
+.footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.footerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.confidential {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  font-size: 0.65rem;
+  color: var(--color-text-light);
+}
+
+@media print {
+  .toolbar {
+    display: none !important;
+  }
+
+  .shell {
+    max-width: none;
+    margin: 0;
+    padding: 0.5in 0.75in;
+    box-shadow: none;
+    border: none;
+  }
+
+  .content {
+    font-size: 10pt;
+    line-height: 1.5;
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0.5in;
+    left: 0.75in;
+    right: 0.75in;
+  }
+}
+
+@media (max-width: 640px) {
+  .shell {
+    padding: 24px 16px;
+  }
+
+  .toolbar {
+    flex-wrap: wrap;
+  }
+}

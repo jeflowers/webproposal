@@ -1,0 +1,171 @@
+.wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-text-muted);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+}
+
+.trigger:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: rgba(14, 124, 123, 0.06);
+}
+
+.popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  width: 320px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 16px;
+  animation: fadeIn 0.15s ease;
+}
+
+.popoverRight {
+  left: auto;
+  right: 0;
+  transform: none;
+}
+
+.popoverLeft {
+  left: 0;
+  transform: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.popoverRight {
+  animation-name: fadeInRight;
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.popoverLeft {
+  animation-name: fadeInRight;
+}
+
+.arrow {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background: var(--color-bg);
+  border-left: 1px solid var(--color-border);
+  border-top: 1px solid var(--color-border);
+}
+
+.popoverRight .arrow {
+  left: auto;
+  right: 16px;
+  transform: rotate(45deg);
+}
+
+.popoverLeft .arrow {
+  left: 16px;
+  transform: rotate(45deg);
+}
+
+.guidance {
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--color-text);
+  margin-bottom: 0;
+}
+
+.example {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: var(--color-bg-alt);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-primary);
+}
+
+.exampleLabel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-primary);
+  margin-bottom: 4px;
+}
+
+.exampleText {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--color-text-light);
+  font-style: italic;
+}
+
+.pricingBadge {
+  margin-top: 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 8px 10px;
+  background: #fef9ee;
+  border: 1px solid #f5dca0;
+  border-radius: var(--radius-md);
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: #92600a;
+}
+
+.pricingBadge svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+}
+
+@media (max-width: 600px) {
+  .popover {
+    width: 260px;
+  }
+}

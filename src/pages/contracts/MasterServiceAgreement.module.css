@@ -1,0 +1,140 @@
+.recitals {
+  margin-bottom: 40px;
+  padding: 24px;
+  background: var(--color-bg-alt);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-primary);
+}
+
+.recitalsTitle {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-secondary);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.recitalsList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.recitalsList li {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--color-text);
+  padding-left: 24px;
+  position: relative;
+}
+
+.recitalsList li::before {
+  content: 'WHEREAS,';
+  position: absolute;
+  left: 0;
+  font-weight: 600;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-primary);
+  top: 3px;
+}
+
+.recitalsList li:first-child {
+  padding-left: 0;
+}
+
+.recitalsList li:first-child::before {
+  display: none;
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.sectionNumber {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  min-width: 28px;
+}
+
+.sectionTitle {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-secondary);
+}
+
+.sectionBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 38px;
+}
+
+.sectionBody p {
+  font-size: 0.88rem;
+  line-height: 1.75;
+  color: var(--color-text);
+}
+
+.effectiveDate {
+  margin-top: 40px;
+  padding: 20px 24px;
+  background: var(--color-bg-alt);
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  line-height: 1.65;
+}
+
+.effectiveDate strong {
+  font-weight: 600;
+  color: var(--color-secondary);
+}
+
+@media (max-width: 640px) {
+  .sectionBody {
+    padding-left: 0;
+  }
+
+  .recitalsList li {
+    padding-left: 0;
+  }
+
+  .recitalsList li::before {
+    display: none;
+  }
+}
+
+@media print {
+  .section {
+    break-inside: avoid;
+  }
+
+  .recitals {
+    background: none;
+    border-left: 2px solid #333;
+    padding: 12px 16px;
+  }
+}

@@ -1,0 +1,178 @@
+import type { HostingOptionId } from '../types/discovery'
+
+export interface PricingItem {
+  id: string
+  name: string
+  description: string
+  hours: number
+  price: number
+  priceLabel?: string
+}
+
+export interface PricingCategory {
+  id: string
+  name: string
+  items: PricingItem[]
+}
+
+interface HostingLabels {
+  categoryLabel: string
+  setupName: string
+  setupDescription: string
+  monthlyLabel: string
+  monthlyDescription: string
+}
+
+export const HOSTING_LABELS: Record<HostingOptionId, HostingLabels> = {
+  aws: {
+    categoryLabel: 'AWS Hosting & Email Setup',
+    setupName: 'AWS Infrastructure Setup',
+    setupDescription: 'S3, CloudFront, Lambda, Route 53, ACM, CloudWatch',
+    monthlyLabel: 'AWS Hosting Costs',
+    monthlyDescription: 'S3, CloudFront, Lambda, Route 53 (estimated)',
+  },
+  gcp: {
+    categoryLabel: 'Google Cloud Hosting & Email Setup',
+    setupName: 'Google Cloud Infrastructure Setup',
+    setupDescription: 'Cloud Storage, Cloud CDN, Cloud Functions, Cloud DNS, Certificate Manager',
+    monthlyLabel: 'Google Cloud Hosting Costs',
+    monthlyDescription: 'Cloud Storage, Cloud CDN, Cloud Functions (estimated)',
+  },
+  azure: {
+    categoryLabel: 'Azure Hosting & Email Setup',
+    setupName: 'Azure Infrastructure Setup',
+    setupDescription: 'Blob Storage, Azure CDN, Azure Functions, Azure DNS, App Service',
+    monthlyLabel: 'Azure Hosting Costs',
+    monthlyDescription: 'Azure Storage, CDN, Functions, DNS (estimated)',
+  },
+  vercel: {
+    categoryLabel: 'Vercel Hosting & Email Setup',
+    setupName: 'Vercel Infrastructure Setup',
+    setupDescription: 'Edge Network, Serverless Functions, Analytics, Custom Domains',
+    monthlyLabel: 'Vercel Hosting Costs',
+    monthlyDescription: 'Vercel Pro plan with serverless functions (estimated)',
+  },
+  traditional: {
+    categoryLabel: 'Web Hosting & Email Setup',
+    setupName: 'Web Hosting Setup',
+    setupDescription: 'Shared/VPS hosting, SSL certificate, CDN, backup configuration',
+    monthlyLabel: 'Web Hosting Costs',
+    monthlyDescription: 'Hosting plan with SSL and CDN (estimated)',
+  },
+  custom: {
+    categoryLabel: 'Custom Hosting & Email Setup',
+    setupName: 'Custom Infrastructure Setup',
+    setupDescription: 'Tailored hosting solution based on your specific requirements',
+    monthlyLabel: 'Hosting Infrastructure Costs',
+    monthlyDescription: 'Custom hosting solution (estimated)',
+  },
+}
+
+export function getPhase1Categories(hostingProvider: HostingOptionId): PricingCategory[] {
+  const labels = HOSTING_LABELS[hostingProvider]
+  return [
+    {
+      id: 'design',
+      name: 'Design & Development',
+      items: [
+        { id: 'website-design', name: 'Website Design (6 pages)', description: 'Home, Services, Our Doctors, Patient Forms, Doctor Referrals, Contact', hours: 24, price: 2400 },
+        { id: 'responsive-dev', name: 'Responsive Development', description: 'Mobile, tablet, and desktop optimization', hours: 12, price: 1200 },
+        { id: 'patient-forms', name: 'Patient Intake Forms (4 forms)', description: 'Registration, Medical History, Insurance, Consent', hours: 18, price: 1800 },
+        { id: 'referral-form', name: 'Doctor Referral Form', description: 'Physician referral submission system', hours: 6, price: 600 },
+      ],
+    },
+    {
+      id: 'infrastructure',
+      name: 'Infrastructure & Security',
+      items: [
+        { id: 'ssl-security', name: 'Secure Database Setup', description: 'Form submissions, referral data storage', hours: 8, price: 800 },
+        { id: 'hipaa-compliance', name: 'SSL Certificate & Security', description: 'HTTPS, secure form handling', hours: 2, price: 200 },
+      ],
+    },
+    {
+      id: 'bilingual',
+      name: 'Bilingual Language Module (EN / ES-MX)',
+      items: [
+        { id: 'bilingual-translation', name: 'Translation Framework Setup', description: 'i18n architecture, language toggle, locale detection', hours: 6, price: 600 },
+        { id: 'bilingual-toggle', name: 'Spanish (Mexico) Translation', description: 'All pages, navigation, forms, and UI elements translated to ES-MX', hours: 8, price: 800 },
+        { id: 'bilingual-forms', name: 'Bilingual Form Support', description: 'Patient forms, referrals, and confirmation emails in both languages', hours: 4, price: 400 },
+      ],
+    },
+    {
+      id: 'hosting',
+      name: labels.categoryLabel,
+      items: [
+        { id: 'hosting-setup', name: labels.setupName, description: labels.setupDescription, hours: 8, price: 800 },
+        { id: 'email-setup', name: 'Professional Email Setup', description: 'Google Workspace or equivalent email service', hours: 2, price: 200 },
+        { id: 'dns-config', name: 'DNS & Domain Configuration', description: 'Domain transfer/setup, SSL provisioning, CDN configuration', hours: 2, price: 200 },
+      ],
+    },
+  ]
+}
+
+export const ADD_ONS: PricingItem[] = [
+  { id: 'ringcentral', name: 'RingCentral Integration', description: 'Click-to-call, scheduling widget, voicemail forms, SMS reminders', hours: 8, price: 800 },
+  { id: 'nextech', name: 'Nextech EHR Integration', description: 'Nextech import formatting, API sync, patient portal linking', hours: 12, price: 1200 },
+  { id: 'scheduling', name: 'Online Appointment Scheduling', description: 'Calendar interface, appointment types, automated confirmations', hours: 6, price: 600 },
+  { id: 'patient-portal', name: 'Patient Portal Enhancement', description: 'Secure login, form history, appointment history, messaging', hours: 10, price: 1000 },
+  { id: 'language-pack', name: 'Additional Language Pack', description: 'Full translation, RTL support, locale-specific formatting', hours: 12, price: 1200, priceLabel: '$1,200/lang' },
+]
+
+export const ADD_ON_DESCRIPTIONS: Record<string, string> = {
+  ringcentral: 'Deep integration with your existing phone and scheduling system.',
+  nextech: 'Connect the website directly to your practice management system.',
+  scheduling: 'Let patients book appointments directly from the website.',
+  'patient-portal': 'Secure patient login for records access and communication.',
+  'language-pack': 'Expand your site beyond English and Spanish with additional language support. Per-language pricing.',
+}
+
+export const ADD_ON_INCLUDES: Record<string, string[]> = {
+  ringcentral: [
+    'Click-to-call buttons throughout the site',
+    'Embedded scheduling widget (if supported by plan)',
+    'Voicemail and callback request forms',
+    'SMS notification integration for appointment reminders',
+  ],
+  nextech: [
+    'Form submissions formatted for Nextech import',
+    'Referral data structured for patient intake',
+    'API integration for automated data sync',
+    'Patient portal deep linking',
+  ],
+  scheduling: [
+    'Calendar-based scheduling interface',
+    'Appointment type selection',
+    'Automated confirmation emails',
+    'Integration with existing scheduling workflow',
+  ],
+  'patient-portal': [
+    'Secure patient login system',
+    'Form submission history',
+    'Appointment history view',
+    'Secure messaging with the practice',
+  ],
+  'language-pack': [
+    'Full translation of all pages, forms, and UI elements',
+    'RTL (right-to-left) support for applicable languages (Arabic, Hebrew, etc.)',
+    'Locale-specific date, number, and currency formatting',
+    'Proven framework supporting up to 11+ languages (see csvlasik.com reference)',
+  ],
+}
+
+export function getMonthlyServices(hostingProvider: HostingOptionId): PricingItem[] {
+  const labels = HOSTING_LABELS[hostingProvider]
+  return [
+    { id: 'hosting-monthly', name: labels.monthlyLabel, description: labels.monthlyDescription, hours: 0, price: 38, priceLabel: '$25-50/mo' },
+    { id: 'maintenance-monthly', name: 'Maintenance & Support', description: 'Updates, security patches, content changes, monitoring', hours: 2, price: 200, priceLabel: '$200/mo' },
+    { id: 'email-monthly', name: 'Email Service', description: 'Google Workspace or equivalent per user', hours: 0, price: 7, priceLabel: '$6-7/mo' },
+  ]
+}
+
+export function formatCurrency(amount: number): string {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(amount)
+}

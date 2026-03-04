@@ -1,0 +1,99 @@
+.header {
+  border-bottom: 3px solid var(--color-secondary);
+  padding-bottom: 24px;
+  margin-bottom: 40px;
+}
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.branding {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.providerName {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-secondary);
+}
+
+.providerTitle {
+  font-size: 0.8rem;
+  color: var(--color-text-light);
+  letter-spacing: 0.5px;
+}
+
+.docMeta {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.docLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-text-muted);
+}
+
+.docValue {
+  font-size: 0.85rem;
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.titleBlock {
+  text-align: center;
+  padding: 24px 0 0;
+}
+
+.docType {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--color-primary);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.docTitle {
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-secondary);
+  margin-bottom: 12px;
+}
+
+.parties {
+  font-size: 0.9rem;
+  color: var(--color-text-light);
+  line-height: 1.6;
+}
+
+.partyName {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+@media (max-width: 640px) {
+  .topBar {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .docMeta {
+    text-align: left;
+  }
+
+  .docTitle {
+    font-size: 1.35rem;
+  }
+}

@@ -1,0 +1,63 @@
+.signatures {
+  margin-top: 64px;
+  padding-top: 40px;
+  border-top: 1px solid var(--color-border);
+}
+
+.sigTitle {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-secondary);
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+}
+
+.party {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.partyLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.partyName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-secondary);
+}
+
+.sigLine {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.line {
+  border-bottom: 1px solid var(--color-text);
+  min-height: 40px;
+}
+
+.lineLabel {
+  font-size: 0.75rem;
+  color: var(--color-text-light);
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}

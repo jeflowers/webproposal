@@ -1,0 +1,256 @@
+.intro {
+  margin-bottom: 40px;
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: var(--color-text);
+}
+
+.intro p {
+  margin-bottom: 12px;
+}
+
+.refLabel {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.refValue {
+  font-size: 0.85rem;
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.phase {
+  margin-bottom: 40px;
+}
+
+.phaseHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.phaseBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 12px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #fff;
+  background: var(--color-primary);
+  border-radius: 100px;
+}
+
+.phaseTitle {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-secondary);
+}
+
+.phaseDesc {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+}
+
+.table thead {
+  background: var(--color-bg-alt);
+}
+
+.table th {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-text-muted);
+  padding: 10px 16px;
+  text-align: left;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.table th:last-child {
+  text-align: right;
+  width: 80px;
+}
+
+.table td {
+  padding: 10px 16px;
+  font-size: 0.85rem;
+  border-bottom: 1px solid var(--color-border-light);
+  vertical-align: top;
+}
+
+.table td:last-child {
+  text-align: right;
+  font-weight: 600;
+  color: var(--color-secondary);
+  white-space: nowrap;
+}
+
+.delivName {
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 2px;
+}
+
+.delivDesc {
+  font-size: 0.8rem;
+  color: var(--color-text-light);
+}
+
+.totalRow {
+  background: var(--color-bg-alt);
+}
+
+.totalRow td {
+  font-weight: 700;
+  color: var(--color-secondary);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.milestones {
+  margin-top: 40px;
+}
+
+.milestonesTitle {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-secondary);
+  margin-bottom: 20px;
+}
+
+.milestoneGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.milestone {
+  padding: 16px;
+  background: var(--color-bg-alt);
+  border-radius: var(--radius-md);
+  border-top: 3px solid var(--color-primary);
+}
+
+.milestoneNum {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-primary);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.milestoneName {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--color-secondary);
+  margin-bottom: 4px;
+}
+
+.milestoneDesc {
+  font-size: 0.78rem;
+  color: var(--color-text-light);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.milestonePayment {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.assumptions {
+  margin-top: 40px;
+}
+
+.assumptionsTitle {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-secondary);
+  margin-bottom: 16px;
+}
+
+.assumptionsList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0;
+}
+
+.assumptionsList li {
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: var(--color-text);
+  padding-left: 20px;
+  position: relative;
+}
+
+.assumptionsList li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+
+@media (max-width: 768px) {
+  .milestoneGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .milestoneGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .table th,
+  .table td {
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+@media print {
+  .phase {
+    break-inside: avoid;
+  }
+
+  .milestone {
+    background: none;
+    border: 1px solid #ddd;
+    border-top: 2px solid #333;
+  }
+
+  .table thead {
+    background: none;
+  }
+
+  .totalRow {
+    background: none;
+  }
+}

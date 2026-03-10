@@ -1,11 +1,12 @@
-import { GraduationCap, Award, Stethoscope } from 'lucide-react'
+import { useState } from 'react'
+import { GraduationCap, Award, Stethoscope, ChevronDown } from 'lucide-react'
 import { useLanguage } from '../../i18n/LanguageContext'
+import { useTemplateTheme } from '../../hooks/useTemplateTheme'
 import styles from './MockupDoctors.module.css'
 import khannaPhoto from '../../assets/image.png'
 import unzuetaPhoto from '../../assets/unzueta.png'
 import duongPhoto from '../../assets/duong.png'
 import groupPhoto from '../../assets/8P0A0036-Edit_1998x1032.jpg'
-import sectionHeaderImg from '../../assets/section-header-doctors.png'
 
 interface Doctor {
   name: string
@@ -56,20 +57,80 @@ const doctors: Doctor[] = [
   },
 ]
 
+function MinimalDoctorCard({ doctor }: { doctor: Doctor }) {
+  const [expanded, setExpanded] = useState(false)
+
+  return (
+    <div className={styles.expandCard}>
+      <button
+        className={styles.expandHeader}
+        onClick={() => setExpanded(!expanded)}
+        aria-expanded={expanded}
+      >
+        <img src={doctor.photo} alt={doctor.name} className={styles.expandPhoto} />
+        <div className={styles.expandMeta}>
+          <h3 className={styles.expandName}>{doctor.name}</h3>
+          <p className={styles.expandTitle}>{doctor.title}</p>
+        </div>
+        <ChevronDown
+          size={18}
+          className={`${styles.expandChevron} ${expanded ? styles.expandChevronOpen : ''}`}
+        />
+      </button>
+      {expanded && (
+        <div className={styles.expandBody}>
+          <p className={styles.expandBio}>{doctor.bio}</p>
+          <div className={styles.expandTags}>
+            {doctor.specialties.map((s) => (
+              <span key={s} className={styles.expandTag}>{s}</span>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function MockupDoctors() {
   const { t } = useLanguage()
+  const template = useTemplateTheme()
+
+  const isMinimal = template?.id === 'pure-minimal'
+
+  if (isMinimal) {
+    return (
+      <section id="doctors" className={styles.sectionMinimal}>
+        <div className={styles.containerNarrow}>
+          <h2 className={styles.headingMinimal}>{t.doctors.heading}</h2>
+          <p className={styles.subheadingMinimal}>{t.doctors.subheading}</p>
+          <div className={styles.expandList}>
+            {doctors.map((doctor) => (
+              <MinimalDoctorCard key={doctor.name} doctor={doctor} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section id="doctors" className={styles.section}>
       <div className={styles.heroBanner}>
-        <img src={groupPhoto} alt="Our Doctors" className={styles.heroBannerImg} />
-        <div className={styles.heroBannerOverlay} />
+        <img
+          src={groupPhoto}
+          alt={t.doctors.heading}
+          className={styles.heroBannerImg}
+          loading="eager"
+        />
+        <div className={styles.heroBannerOverlay} aria-hidden="true" />
+        <div className={styles.heroContent}>
+          <p className={styles.heroEyebrow}>{t.doctors.label}</p>
+          <h2 className={styles.heroTitle}>{t.doctors.heading}</h2>
+          <p className={styles.heroSubtitle}>{t.doctors.subheading}</p>
+        </div>
       </div>
 
       <div className={styles.container}>
-        <div className={styles.header}>
-          <img src={sectionHeaderImg} alt="" className={styles.sectionHeaderImg} />
-        </div>
 
         <div className={styles.doctorsList}>
           {doctors.map((doctor, index) => (

@@ -7,15 +7,20 @@
 .heroBanner {
   position: relative;
   width: 100%;
-  height: 480px;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
 }
 
 .heroBannerImg {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center 25%;
   display: block;
 }
 
@@ -23,56 +28,53 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.15) 0%,
-    rgba(0, 0, 0, 0.05) 50%,
-    rgba(255, 255, 255, 0.6) 85%,
-    #fff 100%
+    180deg,
+    rgba(12, 24, 33, 0.55) 0%,
+    rgba(12, 24, 33, 0.35) 45%,
+    rgba(12, 24, 33, 0.6) 100%
   );
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 80px 24px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.heroEyebrow {
+  margin: 0 0 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.heroTitle {
+  font-family: var(--font-heading);
+  font-size: clamp(2.2rem, 4.2vw, 3.5rem);
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 16px;
+  line-height: 1.1;
+}
+
+.heroSubtitle {
+  margin: 0;
+  font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.88);
+  max-width: 620px;
+  margin: 0 auto;
 }
 
 .container {
   max-width: 1120px;
   margin: 0 auto;
-  padding: 0 24px;
-}
-
-.header {
-  text-align: center;
-  margin-bottom: 64px;
-  margin-top: -40px;
-  position: relative;
-  z-index: 1;
-}
-
-.sectionHeaderImg {
-  max-width: 640px;
-  width: 100%;
-  height: auto;
-  display: inline-block;
-}
-
-.label {
-  display: inline-block;
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 2.5px;
-  color: var(--color-primary);
-  margin-bottom: 12px;
-}
-
-.heading {
-  font-size: 2.25rem;
-  margin-bottom: 16px;
-}
-
-.subheading {
-  font-size: 1rem;
-  color: var(--color-text-light);
-  max-width: 560px;
-  margin: 0 auto;
-  line-height: 1.7;
+  padding: 48px 24px 0;
 }
 
 .doctorsList {
@@ -216,6 +218,118 @@
   background: var(--color-primary-light);
 }
 
+.sectionMinimal {
+  padding: 96px 24px;
+  background: var(--color-bg);
+}
+
+.containerNarrow {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.headingMinimal {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 12px;
+}
+
+.subheadingMinimal {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text-light);
+  margin-bottom: 48px;
+}
+
+.expandList {
+  display: flex;
+  flex-direction: column;
+}
+
+.expandCard {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.expandCard:first-child {
+  border-top: 1px solid var(--color-border);
+}
+
+.expandHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 20px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-body);
+}
+
+.expandPhoto {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.expandMeta {
+  flex: 1;
+}
+
+.expandName {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 2px;
+}
+
+.expandTitle {
+  font-size: 0.8rem;
+  color: var(--color-text-light);
+}
+
+.expandChevron {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+  transition: transform 0.25s;
+}
+
+.expandChevronOpen {
+  transform: rotate(180deg);
+}
+
+.expandBody {
+  padding: 0 0 24px 72px;
+}
+
+.expandBio {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--color-text-light);
+  margin-bottom: 16px;
+}
+
+.expandTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.expandTag {
+  font-size: 0.725rem;
+  font-weight: 500;
+  color: var(--color-text);
+  background: var(--color-bg-alt);
+  padding: 4px 12px;
+  border-radius: 100px;
+}
+
 @media (max-width: 900px) {
   .doctorCard,
   .doctorCard.reversed {
@@ -240,23 +354,25 @@
     padding: 0 0 64px;
   }
 
-  .heroBanner {
-    height: 280px;
-  }
-
-  .header {
-    margin-top: -24px;
-  }
-
-  .sectionHeaderImg {
-    max-width: 400px;
-  }
-
-  .heading {
-    font-size: 1.75rem;
+  .heroBannerImg {
+    object-position: center 20%;
   }
 
   .doctorsList {
     gap: 32px;
+  }
+}
+
+@media (max-width: 600px) {
+  .heroBanner {
+    min-height: 500px;
+  }
+
+  .heroContent {
+    padding: 60px 16px;
+  }
+
+  .heroBannerImg {
+    object-position: center 18%;
   }
 }

@@ -1,26 +1,71 @@
-import { Eye, Scan, Microscope, Zap, Glasses, Heart } from 'lucide-react'
+import { Eye, Scan, Microscope, Zap, Glasses, Heart, ArrowRight } from 'lucide-react'
 import { useLanguage } from '../../i18n/LanguageContext'
+import { useAiContent } from '../../config/AiContentContext'
+import { useTemplateTheme } from '../../hooks/useTemplateTheme'
 import styles from './MockupServices.module.css'
 
-export default function MockupServices() {
-  const { t } = useLanguage()
+const serviceIcons = [Eye, Scan, Microscope, Zap, Glasses, Heart]
 
-  const services = [
-    { icon: Eye, title: t.services.cataract, description: t.services.cataractDesc },
-    { icon: Scan, title: t.services.glaucoma, description: t.services.glaucomaDesc },
-    { icon: Microscope, title: t.services.retina, description: t.services.retinaDesc },
-    { icon: Zap, title: t.services.lasik, description: t.services.lasikDesc },
-    { icon: Glasses, title: t.services.exams, description: t.services.examsDesc },
-    { icon: Heart, title: t.services.oculoplastics, description: t.services.oculoplasticsDesc },
+export default function MockupServices() {
+  const { locale, t } = useLanguage()
+  const { content } = useAiContent()
+  const template = useTemplateTheme()
+
+  const isMinimal = template?.id === 'pure-minimal'
+
+  const useAi = locale === 'en' && !!content
+  const heading = useAi ? content.services.heading : t.services.heading
+  const subheading = useAi ? content.services.subheading : t.services.subheading
+
+  const defaultServices = [
+    { title: t.services.cataract, description: t.services.cataractDesc },
+    { title: t.services.glaucoma, description: t.services.glaucomaDesc },
+    { title: t.services.retina, description: t.services.retinaDesc },
+    { title: t.services.lasik, description: t.services.lasikDesc },
+    { title: t.services.exams, description: t.services.examsDesc },
+    { title: t.services.oculoplastics, description: t.services.oculoplasticsDesc },
   ]
+
+  const services = useAi && content.services.items?.length
+    ? content.services.items.map((item, i) => ({
+        icon: serviceIcons[i % serviceIcons.length],
+        title: item.name,
+        description: item.description,
+      }))
+    : defaultServices.map((s, i) => ({ icon: serviceIcons[i], ...s }))
+
+  if (isMinimal) {
+    return (
+      <section id="services" className={styles.sectionMinimal}>
+        <div className={styles.containerNarrow}>
+          <h2 className={styles.headingMinimal}>{heading}</h2>
+          <p className={styles.subheadingMinimal}>{subheading}</p>
+          <div className={styles.listMinimal}>
+            {services.map((service) => (
+              <div key={service.title} className={styles.rowCard}>
+                <div className={styles.rowIcon}>
+                  <service.icon size={20} />
+                </div>
+                <div className={styles.rowContent}>
+                  <h3 className={styles.rowTitle}>{service.title}</h3>
+                  <p className={styles.rowDesc}>{service.description}</p>
+                </div>
+                <ArrowRight size={16} className={styles.rowArrow} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section id="services" className={styles.section}>
       <div className={styles.container}>
         <div className={styles.header}>
           <span className={styles.label}>{t.services.label}</span>
-          <h2 className={styles.heading}>{t.services.heading}</h2>
-          <p className={styles.subheading}>{t.services.subheading}</p>
+          <h2 className={styles.heading}>{heading}</h2>
+          <p className={styles.subheading}>{subheading}</p>
         </div>
 
         <div className={styles.grid}>

@@ -1,6 +1,6 @@
-import { useState, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, Check, Search, Globe, AlertCircle, Loader2, HelpCircle } from 'lucide-react'
+import { useState, useCallback, useEffect } from 'react'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { ArrowLeft, ChevronLeft, ChevronRight, Check, Search, Globe, CircleAlert as AlertCircle, Loader as Loader2, Circle as HelpCircle, Save } from 'lucide-react'
 import { useDiscovery } from '../config/DiscoveryContext'
 import InfoTooltip from '../components/discovery/InfoTooltip'
 import CompletionGuideModal from '../components/discovery/CompletionGuideModal'
@@ -847,7 +847,8 @@ const SECTIONS = [SectionProblemStatement, Section1, Section2, Section3, Section
 
 export default function Discovery() {
   const navigate = useNavigate()
-  const { config, setConfig, createQuote } = useDiscovery()
+  const [searchParams] = useSearchParams()
+  const { config, setConfig, createQuote, saveDraft, loadDraft, draftId } = useDiscovery()
   const [step, setStep] = useState(0)
   const [practiceName, setPracticeName] = useState('')
   const [contactEmail, setContactEmail] = useState('')
@@ -855,9 +856,38 @@ export default function Discovery() {
   const [savingStatus, setSavingStatus] = useState('')
   const [error, setError] = useState('')
   const [showGuide, setShowGuide] = useState(false)
+  const [draftSaving, setDraftSaving] = useState(false)
+  const [draftSaved, setDraftSaved] = useState(false)
+  const [draftLoading, setDraftLoading] = useState(false)
+
+  useEffect(() => {
+    const draftParam = searchParams.get('draft')
+    if (draftParam && !draftId) {
+      setDraftLoading(true)
+      loadDraft(draftParam).then((result) => {
+        if (result) {
+          setStep(result.step)
+          setPracticeName(result.practiceName)
+          setContactEmail(result.contactEmail)
+        }
+        setDraftLoading(false)
+      })
+    }
+  }, [])
 
   const update = (patch: Partial<DiscoveryConfig>) => {
     setConfig({ ...config, ...patch })
+  }
+
+  const handleSaveProgress = async () => {
+    setDraftSaving(true)
+    setDraftSaved(false)
+    const id = await saveDraft(step, practiceName, contactEmail)
+    setDraftSaving(false)
+    if (id) {
+      setDraftSaved(true)
+      setTimeout(() => setDraftSaved(false), 3000)
+    }
   }
 
   const SectionComponent = SECTIONS[step]
@@ -889,8 +919,40 @@ export default function Discovery() {
     }
   }
 
+  if (draftLoading) {
+    return (
+      <div className={styles.page}>
+        <div className={styles.loadingState}>
+          <Loader2 size={24} className={styles.spinner} />
+          <p>Loading your saved progress...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className={styles.page}>
+      <div className={styles.topBar}>
+        <Link to="/" className={styles.backLink}>
+          <ArrowLeft size={16} />
+          Back to Proposal
+        </Link>
+        <button
+          type="button"
+          className={styles.saveProgressButton}
+          onClick={handleSaveProgress}
+          disabled={draftSaving}
+        >
+          {draftSaving ? (
+            <Loader2 size={14} className={styles.spinner} />
+          ) : draftSaved ? (
+            <Check size={14} />
+          ) : (
+            <Save size={14} />
+          )}
+          {draftSaving ? 'Saving...' : draftSaved ? 'Saved' : 'Save Progress'}
+        </button>
+      </div>
       <div className={styles.header}>
         <div className={styles.headerTopRow}>
           <h1>Discovery Intake Form</h1>

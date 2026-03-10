@@ -252,6 +252,81 @@
   color: var(--color-text-light);
 }
 
+.sectionDual {
+  padding: 96px 24px;
+  background: var(--color-bg-alt);
+}
+
+.dualGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.locationCard {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  transition: box-shadow 0.25s;
+}
+
+.locationCard:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.locationIcon {
+  color: var(--color-accent, var(--color-primary));
+  margin-bottom: 16px;
+}
+
+.locationName {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+
+.locationAddr {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  line-height: 1.5;
+}
+
+.locationMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 0.825rem;
+  color: var(--color-text-light);
+}
+
+.locationMeta svg {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.locationMeta a {
+  color: var(--color-text-light);
+}
+
+.locationMeta a:hover {
+  color: var(--color-primary);
+}
+
+.formColFull {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
 @media (max-width: 768px) {
   .grid {
     grid-template-columns: 1fr;
@@ -268,5 +343,14 @@
   }
   .heading {
     font-size: 1.75rem;
+  }
+  .dualGrid {
+    grid-template-columns: 1fr;
+  }
+  .sectionDual {
+    padding: 64px 16px;
+  }
+  .formColFull {
+    padding: 24px 16px;
   }
 }

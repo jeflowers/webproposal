@@ -10,6 +10,15 @@ interface QuoteEmailRequest {
   quote_id: string
 }
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
+}
+
 function formatCurrency(amount: number): string {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -21,7 +30,8 @@ function formatCurrency(amount: number): string {
 
 function generateEmailHTML(quote: any): string {
   const baseUrl = Deno.env.get('BASE_URL') || 'http://localhost:5173'
-  const quoteUrl = `${baseUrl}/proposal?quote=${quote.quote_number}`
+  const safeQuoteNumber = encodeURIComponent(quote.quote_number)
+  const quoteUrl = `${baseUrl}/proposal?quote=${safeQuoteNumber}`
 
   const phase1Items = quote.customizations?.selectedPhase1 || []
   const addOns = quote.customizations?.selectedAddOns || []
@@ -45,7 +55,7 @@ function generateEmailHTML(quote: any): string {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Quote - ${quote.quote_number}</title>
+  <title>Your Quote - ${escapeHtml(quote.quote_number)}</title>
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -152,15 +162,15 @@ function generateEmailHTML(quote: any): string {
 <body>
   <div class="container">
     <div class="header">
-      <div class="quote-number">${quote.quote_number}</div>
-      <div class="practice-name">${quote.practice_name}</div>
+      <div class="quote-number">${escapeHtml(quote.quote_number)}</div>
+      <div class="practice-name">${escapeHtml(quote.practice_name || '')}</div>
     </div>
 
     <p>Thank you for your interest! Here's your customized website proposal:</p>
 
     <div class="section">
       <div class="section-title">Core Website & Forms (Phase 1)</div>
-      ${phase1Items.length > 0 ? phase1Items.map((item: string) => `<div class="item">${item}</div>`).join('') : '<div class="item">Complete website solution</div>'}
+      ${phase1Items.length > 0 ? phase1Items.map((item: string) => `<div class="item">${escapeHtml(item)}</div>`).join('') : '<div class="item">Complete website solution</div>'}
     </div>
 
     ${addOns.length > 0 ? `
@@ -174,7 +184,7 @@ function generateEmailHTML(quote: any): string {
           'patient-portal': 'Patient Portal Enhancement',
           'language-pack': 'Additional Language Pack'
         }
-        return `<div class="item">${addonNames[addon] || addon}</div>`
+        return `<div class="item">${escapeHtml(addonNames[addon] || addon)}</div>`
       }).join('')}
     </div>
     ` : ''}
@@ -188,7 +198,7 @@ function generateEmailHTML(quote: any): string {
           'maintenance-monthly': 'Maintenance & Support',
           'email-monthly': 'Email Service'
         }
-        return `<div class="item">${monthlyNames[item] || item}</div>`
+        return `<div class="item">${escapeHtml(monthlyNames[item] || item)}</div>`
       }).join('')}
     </div>
     ` : ''}
@@ -243,9 +253,20 @@ Deno.serve(async (req: Request) => {
 
     const { quote_id }: QuoteEmailRequest = await req.json()
 
-    if (!quote_id) {
+    if (!quote_id || typeof quote_id !== 'string') {
       return new Response(
         JSON.stringify({ error: 'quote_id is required' }),
+        {
+          status: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      )
+    }
+
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+    if (!uuidRegex.test(quote_id)) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid quote_id format' }),
         {
           status: 400,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -264,6 +285,17 @@ Deno.serve(async (req: Request) => {
         JSON.stringify({ error: 'Quote not found' }),
         {
           status: 404,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      )
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!quote.contact_email || !emailRegex.test(quote.contact_email)) {
+      return new Response(
+        JSON.stringify({ error: 'Quote has an invalid contact email' }),
+        {
+          status: 400,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         }
       )
@@ -352,9 +384,7 @@ Deno.serve(async (req: Request) => {
   } catch (error) {
     console.error('Error in send-quote-email:', error)
     return new Response(
-      JSON.stringify({
-        error: error instanceof Error ? error.message : 'Internal server error',
-      }),
+      JSON.stringify({ error: 'Internal server error' }),
       {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },

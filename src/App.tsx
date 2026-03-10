@@ -11,6 +11,7 @@ const MasterServiceAgreement = lazy(() => import('./pages/contracts/MasterServic
 const StatementOfWork = lazy(() => import('./pages/contracts/StatementOfWork'))
 const QuoteEstimate = lazy(() => import('./pages/contracts/QuoteEstimate'))
 const ServiceAgreement = lazy(() => import('./pages/contracts/ServiceAgreement'))
+const Templates = lazy(() => import('./pages/Templates'))
 
 function LoadingFallback() {
   return (
@@ -42,6 +43,7 @@ function App() {
           <Route path="/contracts/sow" element={<StatementOfWork />} />
           <Route path="/contracts/quote" element={<QuoteEstimate />} />
           <Route path="/contracts/service" element={<ServiceAgreement />} />
+          <Route path="/templates" element={<Templates />} />
         </Routes>
       </Suspense>
     </DiscoveryProvider>

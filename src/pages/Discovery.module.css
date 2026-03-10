@@ -5,6 +5,61 @@
   font-family: var(--font-body);
 }
 
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-light);
+  transition: color 0.2s;
+}
+
+.backLink:hover {
+  color: var(--color-primary);
+}
+
+.backLink:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.saveProgressButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  color: var(--color-text-light);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-body);
+  white-space: nowrap;
+}
+
+.saveProgressButton:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: rgba(14, 124, 123, 0.04);
+}
+
+.saveProgressButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .header {
   margin-bottom: 40px;
 }
@@ -683,6 +738,17 @@
 .textArea:focus {
   outline: none;
   border-color: var(--color-primary);
+}
+
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 80px 24px;
+  color: var(--color-text-light);
+  font-size: 0.9rem;
 }
 
 @media (max-width: 600px) {

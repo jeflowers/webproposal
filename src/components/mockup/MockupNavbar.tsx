@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Phone, Menu, X, Globe } from 'lucide-react'
 import { useLanguage } from '../../i18n/LanguageContext'
+import { useAiContent } from '../../config/AiContentContext'
+import { useTemplateTheme } from '../../hooks/useTemplateTheme'
 import styles from './MockupNavbar.module.css'
 
 interface Props {
@@ -9,17 +11,30 @@ interface Props {
 }
 
 const navKeys = ['home', 'services', 'about', 'doctors', 'forms', 'referrals', 'contact'] as const
+const minimalNavKeys = ['services', 'about', 'doctors', 'contact'] as const
 
 export default function MockupNavbar({ activeSection, setActiveSection }: Props) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const { locale, setLocale, t } = useLanguage()
+  const { content } = useAiContent()
+  const template = useTemplateTheme()
+
+  const isMinimal = template?.id === 'pure-minimal'
+
+  const practiceName = content?.hero.practiceName || 'MEC'
+  const nameParts = practiceName.split(' ')
+  const brandMain = nameParts[0]
+  const brandSub = nameParts.length > 1 ? nameParts.slice(1).join(' ') : 'Eye Specialists'
+
+  const activeNavKeys = isMinimal ? minimalNavKeys : navKeys
 
   useEffect(() => {
+    if (isMinimal) return
     const handleScroll = () => setScrolled(window.scrollY > 80)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [isMinimal])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -64,6 +79,42 @@ export default function MockupNavbar({ activeSection, setActiveSection }: Props)
     setLocale(locale === 'en' ? 'es' : 'en')
   }
 
+  if (isMinimal) {
+    return (
+      <nav
+        className={styles.navMinimal}
+        role="navigation"
+        aria-label="Main navigation"
+      >
+        <div className={styles.innerMinimal}>
+          <div className={styles.brandMinimal}>
+            <span className={styles.brandNameMinimal}>{practiceName}</span>
+          </div>
+
+          <div className={`${styles.linksMinimal} ${mobileOpen ? styles.open : ''}`}>
+            {minimalNavKeys.map((key) => (
+              <button
+                key={key}
+                className={`${styles.linkMinimal} ${activeSection === key ? styles.activeMinimal : ''}`}
+                onClick={() => handleClick(key)}
+              >
+                {navLabels[key]}
+              </button>
+            ))}
+          </div>
+
+          <button
+            className={styles.mobileToggle}
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+      </nav>
+    )
+  }
+
   return (
     <nav
       className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}
@@ -72,12 +123,12 @@ export default function MockupNavbar({ activeSection, setActiveSection }: Props)
     >
       <div className={styles.inner}>
         <div className={styles.brand}>
-          <span className={styles.brandName}>MEC</span>
-          <span className={styles.brandSub}>Eye Specialists</span>
+          <span className={styles.brandName}>{brandMain}</span>
+          <span className={styles.brandSub}>{brandSub}</span>
         </div>
 
         <div className={`${styles.links} ${mobileOpen ? styles.open : ''}`}>
-          {navKeys.map((key) => (
+          {activeNavKeys.map((key) => (
             <button
               key={key}
               className={`${styles.link} ${activeSection === key ? styles.active : ''}`}

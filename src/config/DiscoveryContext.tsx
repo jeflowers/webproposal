@@ -1,9 +1,12 @@
-import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react'
+import { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef, type ReactNode } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import type { DiscoveryConfig, ConfiguredProposal, Quote } from '../types/discovery'
 import { DEFAULT_CONFIG } from '../types/discovery'
 import { generateProposalConfig } from './configEngine'
 import { supabase } from '../lib/supabase'
+
+const QUOTE_NUMBER_REGEX = /^MEC-WEB-\d{4}(-v\d+)?$/
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
 export interface ActiveSelections {
   selectedPhase1: Set<string>
@@ -20,6 +23,7 @@ interface DiscoveryContextValue {
   saveConfig: (practiceName: string, contactEmail: string) => Promise<string | null>
   currentQuote: Quote | null
   quoteLoading: boolean
+  quoteNotFound: boolean
   createQuote: (practiceName: string, contactEmail: string) => Promise<Quote | null>
   saveQuoteCustomizations: (
     selectedPhase1: string[],
@@ -32,6 +36,22 @@ interface DiscoveryContextValue {
   updatePhase1Selection: (updater: (prev: Set<string>) => Set<string>) => void
   updateAddOnSelection: (updater: (prev: Set<string>) => Set<string>) => void
   updateMonthlySelection: (updater: (prev: Set<string>) => Set<string>) => void
+  selectedTemplateId: string | null
+  setSelectedTemplateId: (id: string | null) => void
+  saveDraft: (currentStep: number, practiceName: string, contactEmail: string) => Promise<string | null>
+  loadDraft: (draftId: string) => Promise<{ step: number; practiceName: string; contactEmail: string } | null>
+  draftId: string | null
+}
+
+const SESSION_TOKEN_KEY = 'discovery_session_token'
+
+function getSessionToken(): string {
+  let token = localStorage.getItem(SESSION_TOKEN_KEY)
+  if (!token) {
+    token = crypto.randomUUID()
+    localStorage.setItem(SESSION_TOKEN_KEY, token)
+  }
+  return token
 }
 
 const DiscoveryContext = createContext<DiscoveryContextValue | null>(null)
@@ -42,9 +62,14 @@ export function DiscoveryProvider({ children }: { children: ReactNode }) {
   const [configId, setConfigId] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [currentQuote, setCurrentQuote] = useState<Quote | null>(null)
+  const currentQuoteRef = useRef(currentQuote)
+  currentQuoteRef.current = currentQuote
   const [quoteLoading, setQuoteLoading] = useState(false)
+  const [quoteNotFound, setQuoteNotFound] = useState(false)
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null)
+  const [draftId, setDraftId] = useState<string | null>(null)
 
-  const proposalConfig = generateProposalConfig(config)
+  const proposalConfig = useMemo(() => generateProposalConfig(config), [config])
 
   const [activeSelections, setActiveSelections] = useState<ActiveSelections>({
     selectedPhase1: new Set(proposalConfig.preSelectedPhase1),
@@ -83,6 +108,11 @@ export function DiscoveryProvider({ children }: { children: ReactNode }) {
     }
   }, [currentQuote])
 
+  const preSelectedKey = useMemo(
+    () => JSON.stringify([proposalConfig.preSelectedPhase1, proposalConfig.preSelectedAddOns, proposalConfig.preSelectedMonthly]),
+    [proposalConfig.preSelectedPhase1, proposalConfig.preSelectedAddOns, proposalConfig.preSelectedMonthly]
+  )
+
   useEffect(() => {
     if (!currentQuote) {
       setActiveSelections({
@@ -91,7 +121,7 @@ export function DiscoveryProvider({ children }: { children: ReactNode }) {
         selectedMonthly: new Set(proposalConfig.preSelectedMonthly),
       })
     }
-  }, [proposalConfig.preSelectedPhase1, proposalConfig.preSelectedAddOns, proposalConfig.preSelectedMonthly, currentQuote])
+  }, [preSelectedKey, currentQuote])
 
   const setConfig = useCallback((newConfig: DiscoveryConfig) => {
     setConfigState(newConfig)
@@ -100,6 +130,7 @@ export function DiscoveryProvider({ children }: { children: ReactNode }) {
   const loadQuote = useCallback(
     async (quoteNumber: string): Promise<boolean> => {
       setQuoteLoading(true)
+      setQuoteNotFound(false)
 
       const { data, error } = await supabase
         .from('quotes')
@@ -109,7 +140,10 @@ export function DiscoveryProvider({ children }: { children: ReactNode }) {
 
       setQuoteLoading(false)
 
-      if (error || !data) return false
+      if (error || !data) {
+        setQuoteNotFound(true)
+        return false
+      }
 
       const quote = data as Quote
       setCurrentQuote(quote)
@@ -121,12 +155,16 @@ export function DiscoveryProvider({ children }: { children: ReactNode }) {
     []
   )
 
-  useEffect(() => {
-    const urlQuoteNumber = searchParams.get('quote')
-    const urlConfigId = searchParams.get('config')
+  const urlQuoteNumber = searchParams.get('quote')
+  const urlConfigParam = searchParams.get('config')
 
+  useEffect(() => {
     if (urlQuoteNumber) {
-      if (currentQuote?.quote_number === urlQuoteNumber) return
+      if (!QUOTE_NUMBER_REGEX.test(urlQuoteNumber)) {
+        setQuoteNotFound(true)
+        return
+      }
+      if (currentQuoteRef.current?.quote_number === urlQuoteNumber) return
 
       ;(async () => {
         await loadQuote(urlQuoteNumber)
@@ -135,8 +173,9 @@ export function DiscoveryProvider({ children }: { children: ReactNode }) {
       return
     }
 
-    if (urlConfigId) {
-      if (urlConfigId === configId) return
+    if (urlConfigParam) {
+      if (!UUID_REGEX.test(urlConfigParam)) return
+      if (urlConfigParam === configId) return
 
       let cancelled = false
       setLoading(true)
@@ -144,21 +183,21 @@ export function DiscoveryProvider({ children }: { children: ReactNode }) {
         const { data, error } = await supabase
           .from('discovery_configs')
           .select('config_data')
-          .eq('id', urlConfigId)
+          .eq('id', urlConfigParam)
           .maybeSingle()
 
         if (cancelled) return
 
         if (!error && data?.config_data) {
           setConfigState(data.config_data as DiscoveryConfig)
-          setConfigId(urlConfigId)
+          setConfigId(urlConfigParam)
         }
         setLoading(false)
       })()
 
       return () => { cancelled = true }
     }
-  }, [searchParams, configId, currentQuote, loadQuote])
+  }, [urlQuoteNumber, urlConfigParam, configId, loadQuote])
 
   const saveConfig = useCallback(
     async (practiceName: string, contactEmail: string): Promise<string | null> => {
@@ -231,6 +270,7 @@ export function DiscoveryProvider({ children }: { children: ReactNode }) {
               selectedAddOns: Array.from(activeSelections.selectedAddOns),
               selectedMonthly: Array.from(activeSelections.selectedMonthly),
             },
+            template_id: selectedTemplateId || null,
             status: 'draft',
           })
           .select()
@@ -255,7 +295,7 @@ export function DiscoveryProvider({ children }: { children: ReactNode }) {
         return null
       }
     },
-    [config, configId, saveConfig, activeSelections]
+    [config, configId, saveConfig, activeSelections, selectedTemplateId]
   )
 
   const saveQuoteCustomizations = useCallback(
@@ -293,6 +333,73 @@ export function DiscoveryProvider({ children }: { children: ReactNode }) {
       return true
     },
     [currentQuote]
+  )
+
+  const saveDraft = useCallback(
+    async (currentStep: number, practiceName: string, contactEmail: string): Promise<string | null> => {
+      const sessionToken = getSessionToken()
+
+      if (draftId) {
+        const { error } = await supabase
+          .from('discovery_drafts')
+          .update({
+            config_data: config,
+            current_step: currentStep,
+            practice_name: practiceName,
+            contact_email: contactEmail,
+            updated_at: new Date().toISOString(),
+          })
+          .eq('id', draftId)
+
+        if (error) return null
+        return draftId
+      }
+
+      const { data, error } = await supabase
+        .from('discovery_drafts')
+        .insert({
+          session_token: sessionToken,
+          config_data: config,
+          current_step: currentStep,
+          practice_name: practiceName,
+          contact_email: contactEmail,
+        })
+        .select('id')
+        .maybeSingle()
+
+      if (error || !data) return null
+
+      setDraftId(data.id)
+
+      const url = new URL(window.location.href)
+      url.searchParams.set('draft', data.id)
+      window.history.replaceState(null, '', url.toString())
+
+      return data.id
+    },
+    [config, draftId]
+  )
+
+  const loadDraft = useCallback(
+    async (id: string): Promise<{ step: number; practiceName: string; contactEmail: string } | null> => {
+      const { data, error } = await supabase
+        .from('discovery_drafts')
+        .select('*')
+        .eq('id', id)
+        .maybeSingle()
+
+      if (error || !data) return null
+
+      setConfigState(data.config_data as DiscoveryConfig)
+      setDraftId(data.id)
+
+      return {
+        step: data.current_step,
+        practiceName: data.practice_name,
+        contactEmail: data.contact_email,
+      }
+    },
+    []
   )
 
   const createQuoteVersion = useCallback(
@@ -345,6 +452,7 @@ export function DiscoveryProvider({ children }: { children: ReactNode }) {
         saveConfig,
         currentQuote,
         quoteLoading,
+        quoteNotFound,
         createQuote,
         saveQuoteCustomizations,
         createQuoteVersion,
@@ -353,6 +461,11 @@ export function DiscoveryProvider({ children }: { children: ReactNode }) {
         updatePhase1Selection,
         updateAddOnSelection,
         updateMonthlySelection,
+        selectedTemplateId,
+        setSelectedTemplateId,
+        saveDraft,
+        loadDraft,
+        draftId,
       }}
     >
       {children}

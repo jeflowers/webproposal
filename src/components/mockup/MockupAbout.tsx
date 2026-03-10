@@ -1,15 +1,22 @@
 import { Award, Clock, Users, MapPin } from 'lucide-react'
 import { useLanguage } from '../../i18n/LanguageContext'
+import { useAiContent } from '../../config/AiContentContext'
 import styles from './MockupAbout.module.css'
 
 export default function MockupAbout() {
-  const { t } = useLanguage()
+  const { locale, t } = useLanguage()
+  const { content } = useAiContent()
+
+  const useAi = locale === 'en' && !!content
+  const heading = useAi ? content.about.heading : t.about.heading
+  const text1 = useAi ? content.about.text1 : t.about.text1
+  const text2 = useAi ? content.about.text2 : t.about.text2
 
   const stats = [
-    { icon: Clock, value: '20+', label: t.about.yearsExp },
-    { icon: Users, value: '50,000+', label: t.about.patients },
-    { icon: Award, value: 'Board', label: t.about.certified },
-    { icon: MapPin, value: 'Multiple', label: t.about.locations },
+    { icon: Clock, value: useAi ? content.about.stats.yearsExp : '20+', label: t.about.yearsExp },
+    { icon: Users, value: useAi ? content.about.stats.patients : '50,000+', label: t.about.patients },
+    { icon: Award, value: useAi ? content.about.stats.specialists : 'Board', label: t.about.certified },
+    { icon: MapPin, value: useAi ? content.about.stats.locations : 'Multiple', label: t.about.locations },
   ]
 
   return (
@@ -25,9 +32,9 @@ export default function MockupAbout() {
           </div>
           <div className={styles.textCol}>
             <span className={styles.label}>{t.about.label}</span>
-            <h2 className={styles.heading}>{t.about.heading}</h2>
-            <p className={styles.text}>{t.about.text1}</p>
-            <p className={styles.text}>{t.about.text2}</p>
+            <h2 className={styles.heading}>{heading}</h2>
+            <p className={styles.text}>{text1}</p>
+            <p className={styles.text}>{text2}</p>
           </div>
         </div>
 

@@ -115,16 +115,16 @@ Deno.serve(async (req: Request) => {
   try {
     const { domain: rawDomain } = await req.json();
 
-    if (!rawDomain || typeof rawDomain !== "string") {
+    if (!rawDomain || typeof rawDomain !== "string" || rawDomain.length > 253) {
       return new Response(
-        JSON.stringify({ error: "Domain is required" }),
+        JSON.stringify({ error: "Domain is required and must be 253 characters or fewer" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
     const domain = cleanDomain(rawDomain);
 
-    if (!/^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z]{2,})+$/.test(domain)) {
+    if (domain.length > 253 || !/^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z]{2,})+$/.test(domain)) {
       return new Response(
         JSON.stringify({ error: "Invalid domain format" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -144,8 +144,9 @@ Deno.serve(async (req: Request) => {
           { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
         );
       }
+      console.error(`RDAP lookup failed with HTTP ${status} for domain: ${domain}`);
       return new Response(
-        JSON.stringify({ error: `RDAP lookup failed (HTTP ${status})` }),
+        JSON.stringify({ error: "Domain lookup service unavailable" }),
         { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
@@ -173,9 +174,9 @@ Deno.serve(async (req: Request) => {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Unknown error";
+    console.error("domain-lookup error:", err);
     return new Response(
-      JSON.stringify({ error: message }),
+      JSON.stringify({ error: "Internal server error" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }

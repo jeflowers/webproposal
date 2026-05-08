@@ -1,3 +1,8 @@
+export interface InspirationSite {
+  url: string
+  notes: string
+}
+
 export type ProjectType = 'new' | 'redesign' | 'upgrade'
 export type CloudProvider = 'aws' | 'gcp' | 'azure' | 'other' | 'none'
 export type BrandingAsset = 'logo' | 'style_guide' | 'photography'
@@ -68,6 +73,7 @@ export interface DiscoveryConfig {
   website_frustrations: string
   website_wishes: string
   inspiration_sites: string
+  inspiration_sites_parsed?: InspirationSite[]
 }
 
 export type HostingOptionId = 'aws' | 'gcp' | 'azure' | 'vercel' | 'traditional' | 'custom'

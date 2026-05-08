@@ -11,6 +11,10 @@ const sections = [
   { id: 'quote-worksheet', label: 'Quote Worksheet' },
 ]
 
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
 export default function ProposalNav() {
   const [activeSection, setActiveSection] = useState('')
   const [scrolled, setScrolled] = useState(false)
@@ -48,6 +52,12 @@ export default function ProposalNav() {
     if (el) el.scrollIntoView({ behavior: 'smooth' })
   }
 
+  const handleHomeClick = () => {
+    setMobileOpen(false)
+    setActiveSection('')
+    scrollToTop()
+  }
+
   return (
     <nav
       className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}
@@ -55,9 +65,22 @@ export default function ProposalNav() {
       aria-label="Proposal navigation"
     >
       <div className={styles.inner}>
-        <span className={styles.brand}>Proposal</span>
+        <button
+          type="button"
+          className={styles.brand}
+          onClick={handleHomeClick}
+          aria-label="Scroll to top"
+        >
+          Proposal
+        </button>
 
         <div className={`${styles.links} ${mobileOpen ? styles.open : ''}`}>
+          <button
+            className={`${styles.link} ${activeSection === '' ? styles.active : ''}`}
+            onClick={handleHomeClick}
+          >
+            Home
+          </button>
           {sections.map(({ id, label }) => (
             <button
               key={id}

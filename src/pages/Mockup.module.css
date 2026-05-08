@@ -3,10 +3,13 @@
   background: var(--color-bg);
 }
 
-.previewBar {
+.stickyHeader {
   position: sticky;
   top: 0;
   z-index: 100;
+}
+
+.previewBar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -26,6 +29,23 @@
   display: flex;
   align-items: center;
   gap: 12px;
+}
+
+.changeTemplateBtn {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 3px 12px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.changeTemplateBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 .retryBtn {

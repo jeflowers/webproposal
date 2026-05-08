@@ -1,0 +1,100 @@
+# ============================================
+# MEC Eye Specialists — webproposal .gitignore
+# React 19 / Vite 7 / TypeScript / Supabase / Netlify
+# ============================================
+
+# --------------------------------------------
+# Dependencies
+# --------------------------------------------
+node_modules/
+
+# --------------------------------------------
+# Build output
+# --------------------------------------------
+dist/
+dist-ssr/
+build/
+
+# --------------------------------------------
+# Environment variables
+# CRITICAL: .env contains VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY
+# Never commit secrets — Edge Function keys go in Supabase secrets, not here
+# --------------------------------------------
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+
+# --------------------------------------------
+# Vite
+# --------------------------------------------
+*.local
+vite.config.ts.timestamp-*
+
+# --------------------------------------------
+# TypeScript
+# --------------------------------------------
+*.tsbuildinfo
+
+# --------------------------------------------
+# IDE / Editor
+# --------------------------------------------
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# --------------------------------------------
+# OS files
+# --------------------------------------------
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --------------------------------------------
+# Logs
+# --------------------------------------------
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# --------------------------------------------
+# Testing / Coverage
+# --------------------------------------------
+coverage/
+*.lcov
+.nyc_output/
+
+# --------------------------------------------
+# Netlify
+# --------------------------------------------
+.netlify/
+
+# --------------------------------------------
+# Supabase local development
+# --------------------------------------------
+.supabase/
+supabase/.temp/
+
+# --------------------------------------------
+# Misc
+# --------------------------------------------
+*.pem
+*.p12
+*.key
+*.cert

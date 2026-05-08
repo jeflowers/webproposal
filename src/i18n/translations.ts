@@ -209,6 +209,16 @@ export interface Translations {
     addressPlaceholder: string
     copyright: string
   }
+  templateReview: {
+    heading: string
+    subheading: string
+    recommended: string
+    matchedTraits: string
+    useTemplate: string
+    selectTemplate: string
+    otherOptions: string
+    changeTemplate: string
+  }
 }
 
 const en: Translations = {
@@ -420,6 +430,16 @@ const en: Translations = {
     addressPlaceholder: 'Office address here',
     copyright: 'MEC Eye Specialists. All rights reserved.',
   },
+  templateReview: {
+    heading: 'Choose Your Website Template',
+    subheading: 'Based on the design preferences you shared, we recommend:',
+    recommended: 'Recommended',
+    matchedTraits: 'Matched:',
+    useTemplate: 'Use This Template',
+    selectTemplate: 'Select',
+    otherOptions: 'Other options:',
+    changeTemplate: 'Change Template',
+  },
 }
 
 const es: Translations = {
@@ -630,6 +650,16 @@ const es: Translations = {
     contactTitle: 'Contacto',
     addressPlaceholder: 'Direccion de oficina aqui',
     copyright: 'MEC Eye Specialists. Todos los derechos reservados.',
+  },
+  templateReview: {
+    heading: 'Elija su plantilla de sitio web',
+    subheading: 'Segun las preferencias de diseno que compartio, le recomendamos:',
+    recommended: 'Recomendada',
+    matchedTraits: 'Coincidencias:',
+    useTemplate: 'Usar esta plantilla',
+    selectTemplate: 'Seleccionar',
+    otherOptions: 'Other options:',
+    changeTemplate: 'Cambiar plantilla',
   },
 }
 

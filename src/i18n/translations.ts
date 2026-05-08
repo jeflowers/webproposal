@@ -658,7 +658,7 @@ const es: Translations = {
     matchedTraits: 'Coincidencias:',
     useTemplate: 'Usar esta plantilla',
     selectTemplate: 'Seleccionar',
-    otherOptions: 'Other options:',
+    otherOptions: 'Otras opciones:',
     changeTemplate: 'Cambiar plantilla',
   },
 }

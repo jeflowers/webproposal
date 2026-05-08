@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, type ReactNode } from 'react'
 import { ArrowLeft, Monitor, Tablet, Smartphone, Check } from 'lucide-react'
 import { LanguageProvider } from '../../i18n/LanguageContext'
 import { AiContentProvider, useAiContent } from '../../config/AiContentContext'
+import { MockupTemplateProvider } from '../../config/MockupTemplateContext'
 import { useDiscovery } from '../../config/DiscoveryContext'
 import { STYLE_CATEGORIES, type TemplateTheme } from '../../data/templateData'
 import { DEFAULT_CONFIG } from '../../types/discovery'
@@ -37,7 +38,9 @@ export default function TemplatePreview({ template, onBack, onSelect }: Props) {
   return (
     <LanguageProvider>
       <AiContentProvider>
-        <PreviewInner template={template} onBack={onBack} onSelect={onSelect} />
+        <MockupTemplateProvider templateId={template.id}>
+          <PreviewInner template={template} onBack={onBack} onSelect={onSelect} />
+        </MockupTemplateProvider>
       </AiContentProvider>
     </LanguageProvider>
   )
